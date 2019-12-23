@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+  <style>
+    body {
+      background-image: url('http://www.nlightntech.com/images/pitchmsg4.jpg');
+    }
+    </style>
+  
+<head>
       <% include partials/head %>
   </head>
-  <body class="container">
+  <body>
+    
+    <div class="container d-flex h-100 align-items-center">
+      <div class="mx-auto text-center">
+        <h1 style="color : white">Welcome to ECE metrics</h1>
       
-    <div class="col-md-6 col-md-offset-5">
-      <h1>Welcome to ECE metrics</h1>
+      <br>
+      
+      <div>        
+        <button class="btn btn-primary " href="/signup" onClick='document.location.href="/signup"'>
+          Sign Up
+        </button>
+        <button class="btn btn-light" href="/login" onClick='document.location.href="/login"'>
+          Login
+        </button>
+  </div>
+</div>
     </div>
-    <div>
-        <button class="btn btn-primary" href="/login" onClick='document.location.href="/login"'>
-            Login
-          </button>
-          <button class="btn btn-primary" href="/signup" onClick='document.location.href="/signup"'>
-            Sign Up
-          </button>
-    </div>
+    
       
       
     <br/><br/><br/>
     
-
+  
+      
 
   </body>
 </html>
