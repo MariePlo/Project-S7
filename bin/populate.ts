@@ -1,28 +1,17 @@
 import { Metric, MetricsHandler } from '../src/metrics'
 import {UserHandler, User} from "../src/user";
 
-/*
-const met = [
-  new Metric(`${new Date('2013-11-04 14:00 UTC').getTime()}`, 12),
-  new Metric(`${new Date('2013-11-04 14:15 UTC').getTime()}`, 10),
-  new Metric(`${new Date('2013-11-04 14:30 UTC').getTime()}`, 8)
-]*/
-
 const dbMet: MetricsHandler = new MetricsHandler('./db/metrics') //create or open a levelDB database
 const dbUser: UserHandler = new UserHandler('./db/users') //create or open a levelDB database
 
-//create an array of users
+//create an array of users with two users
 const users = [
-  new User("loic", "huangloic@hotmail.com", "123456"),
-  new User("chirag", "chiraggupta199806@gmail.com", "123456")
+  new User("user", "user@ece.com", "password"),
+  new User("user2", "user2@ece.com", "password2")
 ];
 
 
-/*we could write "metrics_loic" like the variable "met" above (put in comment) 
-But during the project, we had already filled the database. 
-So to be fast and keep the same metrics, that's why we decide to write like that (see metrics_loic and metrics_chirag below)
-*/
-const metrics_loic = [
+const metrics_user = [
   {"timestamp":"1575867600000","value":"42"},
   {"timestamp":"1575932400000","value":"35"},
   {"timestamp":"1575968400000","value":"20"},
@@ -31,7 +20,7 @@ const metrics_loic = [
   {"timestamp":"1576148400000","value":"30"}
 ]
 
-const metrics_chirag = [
+const metrics_user2 = [
   {"timestamp":"1575154800000","value":"10"},
   {"timestamp":"1575241200000","value":"15"},
   {"timestamp":"1575327600000","value":"40"},
@@ -49,16 +38,16 @@ users.forEach(user => {
       if (err) throw err;
   });
 
-  if (user.username === "loic") {
-    metrics_loic.forEach(metrics => {
+  if (user.username === "user") {
+    metrics_user.forEach(metrics => {
       dbMet.add(user.username,metrics.timestamp, metrics.value)
     })
-    console.log(user.username+"'s metrics added")
+    console.log(user.username+"'s metrics have been added")
   }
   else {
-    metrics_chirag.forEach(metrics => {
+    metrics_user2.forEach(metrics => {
       dbMet.add(user.username,metrics.timestamp, metrics.value)
     })
-    console.log(user.username+"'s metrics added")
+    console.log(user.username+"'s metrics have been added")
   }
 })
