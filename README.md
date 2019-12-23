@@ -4,7 +4,6 @@
 - CHEONG Loïc : huangloic@hotmail.com
 - GUPTA Chirag : chiraggupta199806@gmail.com
 
-ECE's students in the group ING 4 SI 03 Inter 
 
 ## About this work
 This work is the final project in NodeJS  for the Web Technology course at ECE Paris-Lyon, ING4.
@@ -48,11 +47,10 @@ NB:
 
 ## Run instructions
 After you cloned the repository , execute those commands :
-- `cd Final-Project-NodeJS`
-- `npm install` Install all the dependencies
-- `npm run populate` Populate the database
+- `npm install` To install all the dependencies
+- `npm run populate` To populate the database
 - `npm run build` Build to convert .ts files into .js files in /dist folder
-- `npm start` (run the app) or `npm run dev` (reload the page when changes occurs in the source code)
+- `npm start` (run the app)
 
-Then open a browser with the link below http://localhost:8082/
+Then open a browser with the link below http://localhost:8080/
 

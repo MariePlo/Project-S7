@@ -6,7 +6,7 @@ import session = require('express-session')
 import levelSession = require('level-session-store')
 
 const app = express()
-const port: string = process.env.PORT || '8082'
+const port: string = process.env.PORT || '8080'
 app.use(express.static(path.join(__dirname, '/../public')))
 
 app.set('views', __dirname + "/../views")
