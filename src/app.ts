@@ -20,8 +20,21 @@ app.get("/", function(req, res)
 
 
 app.post('/submit', (req, res) => {
+	
 	const username = req.body.username;
 	const password = req.body.password;
+
+	db.put('username', username, function (err) {
+		if (err) return console.log('Ooops!', err) // some kind of I/O error
+	  
+		// 3) Fetch by key
+		db.get('username', function (err, value) {
+		  if (err) return console.log('Ooops!', err) // likely the key was not found
+	  
+		  // Ta da!
+		  console.log('name=' + value)
+		})
+	  })
 	module.exports.username=username;
 	module.exports.loggedIn=false;
 	console.log(username);

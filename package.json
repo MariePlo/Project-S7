@@ -5,8 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc -p tsconfig.json",
-    "start": "./node_modules/.bin/ts-node src/app.ts",
-    "dev": "./node_modules/.bin/nodemon && SET NODE_ENV=dev",
+    "start": "./node_modules/.bin/ts-node src/server.ts",
+    "dev": "nodemon app.ts",
     "hello": "echo 'hello'"
   },
   "author": "Marie Ploteau, Thomas Virondaud",
@@ -15,7 +15,12 @@
     "@types/node": "^12.12.21",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "level": "^6.0.0",
+    "level-session-store": "^2.2.0",
+    "level-ws": "^2.0.0",
+    "leveldown": "^5.4.1",
+    "levelup": "^4.3.2",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.3"
   }
