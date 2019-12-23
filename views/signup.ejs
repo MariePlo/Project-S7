@@ -5,7 +5,8 @@
       <% include partials/head %>
   </head>
   <body class="container">
-    <div id="form-control">
+    <div class="col-xs-1 text-center">
+    <div id="form">
       <h1>Sign Up </h1>
       <hr/>
       <p><%= existErr === "" ? "" : existErr %></p>
@@ -13,24 +14,29 @@
 
       <form action="/signup" method="post">
 
-        <div class="form-control">
+        <div class="form-group">
           <label for="form_username">Username : </label>
           <input id="form_username" type="text" name="username" />
         </div>
 
-        <div class="form-control">
+        <div class="form-group">
           <label for="form_email">Email : </label>
           <input id="form_email" type="email" name="email" />
         </div>
 
-        <div class="form-control">
+        <div class="form-group">
           <label for="form_password">Password : </label>
           <input id="form_password" type="password" name="password" />
         </div>
         
         <button class="btn btn-primary" type="submit" value="Submit">Sign up</button>
       </form>
+      <button class="btn btn-light" type="submit" href="/login" onClick='document.location.href="/login"'>
+        Login
+      </button>
       <hr/>
+    </div>
     </div>
   </body>
 </html>
+

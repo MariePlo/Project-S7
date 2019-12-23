@@ -4,16 +4,17 @@
       <% include partials/head %>
   </head>
   <body class="container" style="margin-bottom: 100px">
+    <button class="btn btn-primary float-right" href="/logout" onClick='document.location.href="/logout"'>
+      Logout
+    </button>
     <div class="col-md-8 col-md-offset-5">
       <h1>Welcome <%=name %></h1>
+      
       <br/>
-      <button class="btn btn-primary" href="/logout" onClick='document.location.href="/logout"'>
-        Logout
-      </button>
-      <br/><br/><br/>
-      <h2>Here are your metrics :</h2>
+      <div class="float-right">
+        <h2>Here are your metrics :</h2>
       <div id="metrics"></div>
-    </div>
+    
     <ul>
       <script>
         $.getJSON("/metrics/<%= name %>", {}, (data) => {
@@ -25,6 +26,10 @@
         });
       </script>
     </ul>
+      </div>
+      
+
+    <h2> Converters : </h2>
 
     <form class="text-justify" action="/convert" method="post">
       <div>
@@ -46,6 +51,8 @@
     </form>
 
     <br/>
+
+    <h2> Now add or delete your metrics !</h2>
     <form class="text-justify" action="/add" method="post">
       <div>
         <label for="form_timestamp">Timestamp : </label>
@@ -67,82 +74,6 @@
     <br/>
     <br/>
 
-    <div id="MyChart">
-      d3.json('data/fake_users1.json', function(data) {
-        data = MG.convert.date(data, 'date');
-        MG.data_graphic({
-            title: "Line Chart",
-            description: "This is a simple line chart. You can remove the area portion by adding area: false to the arguments list.",
-            data: data,
-            width: 600,
-            height: 200,
-            right: 40,
-            target: document.getElementById('fake_users1'),
-            x_accessor: 'date',
-            y_accessor: 'value'
-        });
-    });
-    
-    <script>
-      $.getJSON("/metrics/<%= name %>", {}, (data) => {
-        var margin = {top: 10, right: 30, bottom: 50, left: 60},
-        width = 800 - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
-
-        // append the svg object to the body of the page
-        var svg = d3.select("#MyChart")
-        .append("svg")
-        .attr("width", width + margin.left + margin.right)
-        .attr("height", height + margin.top + margin.bottom)
-        .append("g")
-        .attr("transform",
-            "translate(" + margin.left + "," + margin.top + ")");
-
-        // Add X axis --> it is a date format
-        var x = d3.scaleTime()
-          .domain(d3.extent(data, function(d) { return d.timestamp; })) //extent find the min & max in data
-          .range([ 0, width ]);
-        svg.append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
-
-        // Add Y axis
-        var y = d3.scaleLinear()
-          .domain([0, d3.max(data, function(d) { return +d.value; })])
-          .range([ height, 0 ]);
-        svg.append("g")
-          .call(d3.axisLeft(y));
-
-        // Add the line
-        svg.append("path")
-          .datum(data)
-          .attr("fill", "none")
-          .attr("stroke", "steelblue")
-          .attr("stroke-width", 1.5)
-          .attr("d", d3.line()
-            .x(function(d) { return x(d.timestamp) })
-            .y(function(d) { return y(d.value) })
-            )
-
-        // text label for the x axis
-        svg.append("text")             
-            .attr("transform",
-                  "translate(" + (width/2) + " ," + 
-                                (height + margin.top + 30) + ")")
-            .style("text-anchor", "middle")
-            .text("Date");
-
-        // text label for the y axis
-        svg.append("text")
-            .attr("transform", "rotate(-90)")
-            .attr("y", 0 - margin.left)
-            .attr("x",0 - (height / 2))
-            .attr("dy", "1em")
-            .style("text-anchor", "middle")
-            .text("Value");  
-
-      });
-    </script>
 
 </div>
 
