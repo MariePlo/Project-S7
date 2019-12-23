@@ -64,9 +64,6 @@ app.get('/metrics/:id', (req: any, res: any) => {
 
 
 
-
-
-
 const LevelStore = levelSession(session)
 
 app.use(session({
@@ -85,6 +82,12 @@ authRouter.get('/login', (req: any, res: any) => {
   let notFoundErr : string = ""
   let pwdErr : string = ""
   res.render('login.ejs', {notFoundErr : notFoundErr, pwdErr : pwdErr})
+})
+
+authRouter.get('/home', (req: any, res: any) => {
+  let notFoundErr : string = ""
+  let pwdErr : string = ""
+  res.render('home.ejs', {notFoundErr : notFoundErr, pwdErr : pwdErr})
 })
 
 authRouter.get('/signup', (req: any, res: any) => {
@@ -244,7 +247,7 @@ app.use('/user', userRouter)
 const authCheck = function (req: any, res: any, next: any) {
   if (req.session.loggedIn) {
     next()
-  } else res.redirect('/login')
+  } else res.redirect('/home')
 }
 
 //if the user is authenticated, then go to its profile page with its metrics

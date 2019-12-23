@@ -1,20 +1,13 @@
 # ECE NodeJS Project 2019-2020
 
 ## Authors
-- CHEONG Loïc : huangloic@hotmail.com
-- GUPTA Chirag : chiraggupta199806@gmail.com
+- VIRONDAUD Thomas : thomas.virondaud@edu.ece.fr
+- Ploteau Marie : marie.ploteau@edu.ece.fr
 
 
-## About this work
-This work is the final project in NodeJS  for the Web Technology course at ECE Paris-Lyon, ING4.
+## Instructions 
 
-There are : 
-- Home page
-- Sign In / Sign Up / Sign Out
-- Insert/update/delete metrics once logged in
-- Retrieve the user’s metrics and display it in a graph
-- Only access the user’s metrics, not the other ones
-
+- 
 ## Users' credentials:
 - username : loic ; password : 123456
 - username : chirag ; password : 123456
