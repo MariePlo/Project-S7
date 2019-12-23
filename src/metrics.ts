@@ -19,6 +19,10 @@ export class MetricsHandler {
     this.db = LevelDB.open(dbPath)
   }
 
+  public closeDB() {
+    this.db.close();
+  }
+
   /*Save several metrics at once */
   public save(key: string, metrics: Metric[], callback: (error: Error | null) => void) {
     const stream = WriteStream(this.db)
@@ -27,7 +31,7 @@ export class MetricsHandler {
     metrics.forEach((m: Metric) => {
       stream.write({ key: `metric:${key}:${m.timestamp}`, value: m.value })
     })
-    console.log(metrics);
+    //console.log(metrics);
     stream.end()
   }
 
@@ -64,9 +68,11 @@ export class MetricsHandler {
   }
 
   //Delete user's metric in the database
-  public delete(user : string, timestamp: string) {
+  public delete(user : string, timestamp: string, callback: (error: Error | null) => void) {
     let key : string = "metric:"+user+":"+timestamp+""
-    this.db.del(key, (err)=>null)
+    this.db.del(key,function (err) {
+      callback(err);
+  });
   }
 
   //Add a new metric in user's database

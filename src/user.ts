@@ -8,6 +8,10 @@ export class UserHandler {
     this.db = LevelDB.open(path)
   }
 
+  public closeDB() {
+    this.db.close();
+  }
+
   public get(username: string, callback: (err: Error | null, result?: User) => void) {
     this.db.get(`user:${username}`, function (err: Error, data: any) {
         if (err) callback(err)
@@ -16,14 +20,40 @@ export class UserHandler {
     })
   }
 
+  //get all the users' data
+  public getAll(callback: (err: Error | null, result?: User[]) => void) {
+    let users: User[] = [];
+    this.db.createReadStream()
+        .on('data', function (data) {
+            let username: string = data.key.split(':')[1];
+            users.push(User.fromDb(username, data.value));
+        })
+        .on('error', function (err) {
+            //console.log('Oh my!', err);
+            callback(err);
+        })
+        .on('close', function () {
+            //console.log('Stream closed');
+            callback(null, users);
+        })
+        .on('end', function () {
+            //console.log('Stream ended')
+        });
+}
+
+  //add a new user in the dayabase 
   public save(user: User, callback: (err: Error | null) => void) {
     this.db.put(`user:${user.username}`, `${user.password}:${user.email}`, (err: Error | null) => {
       callback(err)
     })
   }
 
+  //Delete an user in the database
   public delete(username: string, callback: (err: Error | null) => void) {
-    // TODO
+    let key: string = `user:${username}`;
+        this.db.del(key, function (err) {
+            callback(err);
+        });
   }
 }
 
