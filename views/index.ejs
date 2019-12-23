@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <% include partials/head %>
+  </head>
+  <body class="container" style="margin-bottom: 100px">
+    <div class="col-md-6 col-md-offset-3">
+      <h1>Hello <%=name %></h1>
+      <br/>
+      <button class="btn btn-danger" href="/logout" onClick='document.location.href="/logout"'>
+        Logout
+      </button>
+      <br/><br/><br/>
+      <h3>Your metrics : </h3>
+      <div id="metrics"></div>
+    </div>
+    <ul>
+      <script>
+        $.getJSON("/metrics/<%= name %>", {}, (data) => {
+          const content = data.map(d => {
+            return '<li> timestamp: '+d.timestamp+', value: '+d.value+'</li>';
+          })
+          console.log(typeof content)
+          $('#metrics').append(content.join("\n"));
+        });
+      </script>
+    </ul>
+
+    <h5>What do you want to do ?</h5>
+
+    <form action="/convert" method="post">
+      <div class="form-group">
+        <label for="form_datetime">Datetime : </label>
+        <input type="datetime-local" id="form_timestamp" name="dateTime" value="2019-12-01T00:00" min="1970-01-01T00:00" max="2100-12-31T23:59">
+        <p><%= datetime === "" ? "" : datetime %></p>
+      </div>
+      <button class="btn btn-primary " type="submit" value="Submit">Convert datetime into timestamp</button>
+    </form>
+
+    <br/>
+    <form action="/convert2" method="post">
+      <div class="form-group">
+        <label for="form_timestamp">Timestamp : </label>
+        <input id="form_timestamp" type="number" placeholder="Enter a positif number" name="timestamp" min="0"/>
+        <p><%= timestamp === "" ? "" : timestamp %></p>
+      </div>
+      <button class="btn btn-primary " type="submit" value="Submit">Convert timestamp into datetime</button>
+    </form>
+
+    <br/>
+    <form action="/add" method="post">
+      <div class="form-group">
+        <label for="form_timestamp">Timestamp : </label>
+        <input id="form_timestamp" type="number" placeholder="Enter a positif number" name="timestamp" min="0"/>
+        <label for="form_timestamp">, Value: </label>
+        <input id="form_timestamp" type="number" placeholder="Enter a number" name="value" />
+        <button class="btn btn-success " type="submit" value="Submit">Add/update a metric</button>
+      </div>
+    </form>
+
+    <form action="/delete" method="post">
+      <div class="form-group">
+        <label for="form_timestamp">Timestamp : </label>
+        <input id="form_timestamp" type="number" placeholder="Enter a positif number" name="timestamp" min="0"/>
+        <button class="btn btn-success" type="submit" value="Submit">Delete a metric</button>
+      </div>
+    </form>
+
+    <br/>
+    <br/>
+
+    <div id="MyChart"></div>
+    
+    <script>
+      $.getJSON("/metrics/<%= name %>", {}, (data) => {
+        var margin = {top: 10, right: 30, bottom: 50, left: 60},
+        width = 800 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#MyChart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+        // Add X axis --> it is a date format
+        var x = d3.scaleTime()
+          .domain(d3.extent(data, function(d) { return d.timestamp; })) //extent find the min & max in data
+          .range([ 0, width ]);
+        svg.append("g")
+          .attr("transform", "translate(0," + height + ")")
+          .call(d3.axisBottom(x));
+
+        // Add Y axis
+        var y = d3.scaleLinear()
+          .domain([0, d3.max(data, function(d) { return +d.value; })])
+          .range([ height, 0 ]);
+        svg.append("g")
+          .call(d3.axisLeft(y));
+
+        // Add the line
+        svg.append("path")
+          .datum(data)
+          .attr("fill", "none")
+          .attr("stroke", "steelblue")
+          .attr("stroke-width", 1.5)
+          .attr("d", d3.line()
+            .x(function(d) { return x(d.timestamp) })
+            .y(function(d) { return y(d.value) })
+            )
+
+        // text label for the x axis
+        svg.append("text")             
+            .attr("transform",
+                  "translate(" + (width/2) + " ," + 
+                                (height + margin.top + 30) + ")")
+            .style("text-anchor", "middle")
+            .text("Date");
+
+        // text label for the y axis
+        svg.append("text")
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - margin.left)
+            .attr("x",0 - (height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text("Value");  
+
+      });
+    </script>
+
+
+
+  </body>
+</html>
