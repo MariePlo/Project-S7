@@ -1,3 +1,4 @@
+//import functions
 import {expect} from'chai'
 import {Metric, MetricsHandler} from '../metrics'
 import {LevelDB} from "../leveldb"
@@ -11,10 +12,10 @@ describe('Metrics', function () {
         dbMet = new MetricsHandler(dbPath)
       })
 
-
+	//Get metrics from user not signed in
     describe('#get', function () {
-        it('should get an empty array on non existing user', function (done) {
-            dbMet.getAll("uvhviu", function (err: Error | null, result?: Metric[]| null) {
+        it('returns empty array', function (done) {
+            dbMet.getAll("Marie", function (err: Error | null, result?: Metric[]| null) {
                 expect(err).to.be.null
                 expect(result).to.not.be.undefined
                 expect(result).to.be.empty
@@ -23,13 +24,14 @@ describe('Metrics', function () {
         })
     })
 
+	//Save metrics
     describe('#save', function () {
-        it("should save and get user's metrics", function (done) {
+        it("saves and gets metrics", function (done) {
             let metrics: Metric[] = [];
-            const username: string = "elisabeth";
+            const username: string = "Thomas";
             const met = [
-                new Metric(`${new Date('2019-12-20 12:00 UTC').getTime()}`, "20"),
-                new Metric(`${new Date('2019-12-21 12:00 UTC').getTime()}`, "50")
+                new Metric(`${new Date('2019-12-24 20:00 UTC').getTime()}`, "1"),
+				new Metric(`${new Date('2019-12-25 20:00 UTC').getTime()}`, "2")
             ]
             met.forEach((metric)=> metrics.push(metric));
             dbMet.save(username, metrics, function (err: Error | null, result?: Metric[]) {
@@ -40,8 +42,8 @@ describe('Metrics', function () {
                     expect(result).to.be.an("array");
                     expect(result).to.have.lengthOf(2)
                     expect(result).to.deep.include.members([
-                        {timestamp: '1576843200000', value: '20'},
-                        {timestamp: '1576929600000', value: '50' }
+                        {timestamp: '1577217600000', value: '1'},
+						{timestamp: '1577304000000', value: '2'},
                     ]);
                     console.log(result)
                     done()
@@ -49,12 +51,12 @@ describe('Metrics', function () {
             })
         })
 
-        it("should update one metric value", function (done) {
-            const username: string = "elisabeth";
-            const timestamp: string = "1576843200000"; // before updating this metric, its value was equal to 20. See above
-            const value: string = "100";
+		//Update metrics
+        it("updates metric", function (done) {
+            const username: string = "Thomas";
+            const timestamp: string = "1577217600000";
+            const value: string = "3";
             dbMet.add(username, timestamp, value)
-            console.log("Data is updating") //DO NOT COMMIT THIS LINE!!
             dbMet.getAll(username, function (err: Error | null, data?: Metric[] | null) {
                 expect(err).to.be.null;
                 expect(data).to.not.be.undefined;
@@ -62,8 +64,7 @@ describe('Metrics', function () {
                 expect(data).to.be.an("array");
                 expect(data).to.have.lengthOf(2)
                 expect(data).to.deep.include.members([
-                    {timestamp: '1576843200000', value: '100'},
-                    {timestamp: '1576929600000', value: '50' }
+                    {timestamp: '1577217600000', value: '3'}
                 ]);
                 console.log(data)
                 done()
@@ -71,34 +72,35 @@ describe('Metrics', function () {
         })
     })
 
-
+	//Delete metrics from existing user and non existing user
     describe('#delete', function () {
-        it("should delete one metric in user's data", function (done) {
-            const username: string = "elisabeth";
-            const timestamp: string = "1576843200000"; //this timestamp already exists in the database
+
+		//existing user
+        it("deletes metric", function (done) {
+            const username: string = "Thomas";
+            const timestamp: string = "1577217600000";
             dbMet.delete(username, timestamp, function (err: Error | null) {
-                console.log("Data is updating")
                 dbMet.getAll(username, function (err: Error | null, data?: Metric[] | null) {
                     expect(err).to.be.null;
                     expect(data).to.not.be.undefined;
                     expect(data).to.not.be.empty;
                     expect(data).to.be.an("array");
                     expect(data).to.have.lengthOf(1)
-                    expect(data).to.deep.include.members([{timestamp: '1576929600000', value: '50' }]);
+                    expect(data).to.deep.include.members([{timestamp: '1577304000000', value: '2' }]);
                     console.log(data)
                     done()
                 })
             })
     })
 
-    it('should not fail if data does not exist', function (done) {
-        dbMet.delete('zeihvizjkvb', '1576929600000', function (err: Error | null) {
+	//non existing user	
+    it('sends error', function (done) {
+        dbMet.delete('Marie', '1577304000000', function (err: Error | null) {
             expect(err).to.be.undefined;
             done()
         })
     })
 })
-
 
     after(function () {
         dbMet.closeDB()

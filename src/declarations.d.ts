@@ -1,3 +1,4 @@
+//declaration of modules
 declare module 'encoding-down'
 declare module 'leveldown'
 declare module 'levelup'

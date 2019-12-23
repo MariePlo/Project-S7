@@ -1,9 +1,11 @@
+//import functions
 import encoding from 'encoding-down'
 import leveldown from 'leveldown'
 import levelup from 'levelup'
 import fs = require('fs')
 import del = require('del')
 
+//Declaration class LevelDB (database)
 export class LevelDB {
   static open(path: string) {
     const encoded = encoding(leveldown(path), { valueEncoding: 'json' })
