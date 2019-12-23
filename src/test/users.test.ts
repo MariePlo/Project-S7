@@ -14,21 +14,19 @@ describe('Users', function () {
     });
 
 	//Get non existing user
-    describe('#get', function () {
-
-		//non existing
+    describe('#get info from non existing user', function () {
         it('sends error', function (done) {
             dbUser.get("Marie", function (err: Error | null, result?: User) {
                 expect(err).to.not.be.null;
                 expect(result).to.be.undefined;
                 done()
             })
-        });
+        })
     })
 
 	//Save users
-    describe('#save', function () {
-        it('saves users', function (done) {
+    describe('#save new users', function () {
+        it('saves two new users and returns them right', function (done) {
             const user1 : User = new User("Thomas", "thomas.virondaud@edu.ece.fr", "1212")
             const user2 : User = new User("Marie", "marie.ploteau@edu.ece.fr", "2121")
             let users : User[] = []
@@ -38,8 +36,6 @@ describe('Users', function () {
             dbUser.save(user1, function (err: Error | null) {
                 dbUser.save(user2, function (err: Error | null) {
                     dbUser.getAll( function (error: Error | null, result?: User []) {
-                        expect(error).to.be.null;
-                        expect(result).to.not.be.undefined;
                         expect(result).to.be.an('array')
                         expect(result).to.have.lengthOf(2)
                         expect(result).to.deep.include.members(users)
@@ -48,15 +44,15 @@ describe('Users', function () {
                     })
                 })
             })
-        });
+        })
         
     })
 
 	//Delete user, existing and non existing
-    describe('#delete', function () {
+    describe('#delete user', function () {
 
 		//non existing
-        it('sends error', function (done) {
+        it('sends error if user does not already exist', function (done) {
             dbUser.delete('Tomas', function (err: Error | null) {
                 expect(err).to.not.be.null;
                 done()
@@ -64,12 +60,10 @@ describe('Users', function () {
         })
 
 		//existing
-        it('deletes user', function (done) {
+        it('deletes user if he exists', function (done) {
             dbUser.delete('Thomas', function (err: Error | null) {
                 expect(err).to.be.undefined;
                 dbUser.getAll( function (error: Error | null, result?: User []) {
-                    expect(error).to.be.null;
-                    expect(result).to.not.be.undefined;
                     expect(result).to.be.an('array')
                     expect(result).to.have.lengthOf(1)
                     console.log(result)
