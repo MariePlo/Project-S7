@@ -3,7 +3,7 @@
   <head>
       <% include partials/head %>
   </head>
-  <body class="container-fluid" style="margin-bottom: 100px">
+  <body class="container" style="margin-bottom: 100px">
     <div class="col-md-8 col-md-offset-5">
       <h1>Welcome <%=name %></h1>
       <br/>
@@ -26,8 +26,8 @@
       </script>
     </ul>
 
-    <form action="/convert" method="post">
-      <div class="form-control">
+    <form class="text-justify" action="/convert" method="post">
+      <div>
         <label for="form_datetime">Datetime : </label>
         <input type="datetime-local" id="form_timestamp" name="dateTime" value="2019-12-24T00:00" min="1970-01-01T00:00" max="2100-12-31T23:59">
         <p><%= datetime === "" ? "" : datetime %></p>
@@ -36,8 +36,8 @@
     </form>
 
     <br/>
-    <form action="/convert2" method="post">
-      <div class="form-control">
+    <form class="text-justify" action="/convert2" method="post">
+      <div>
         <label for="form_timestamp">Timestamp : </label>
         <input id="form_timestamp" type="number" name="timestamp" min="0"/>
         <p><%= timestamp === "" ? "" : timestamp %></p>
@@ -46,8 +46,8 @@
     </form>
 
     <br/>
-    <form action="/add" method="post">
-      <div class="form-control">
+    <form class="text-justify" action="/add" method="post">
+      <div>
         <label for="form_timestamp">Timestamp : </label>
         <input id="form_timestamp" type="number" name="timestamp" min="0"/>
         <label for="form_timestamp">, Value: </label>
@@ -56,8 +56,8 @@
       </div>
     </form>
 
-    <form action="/delete" method="post">
-      <div class="form-control">
+    <form class="text-justify" action="/delete" method="post">
+      <div>
         <label for="form_timestamp">Timestamp : </label>
         <input id="form_timestamp" type="number" name="timestamp" min="0"/>
         <button class="btn btn-primary" type="submit" value="Submit">Delete</button>
