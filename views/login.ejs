@@ -5,14 +5,14 @@
       <% include partials/head %>
   </head>
   <body class="container">
-    <div>
+    <div class="col-xs-1 text-center">
       <h1>Log In</h1>
       <hr/>
 
       <p><%= notFoundErr === "" ? "" : notFoundErr %></p>
       <p><%= pwdErr === "" ? "" : pwdErr %></p>
 
-      <form class="text-justify" action="/login" method="post">
+      <form action="/login" method="post">
 
         <div>
           <label for="form_username">Username : </label>
@@ -24,10 +24,10 @@
           <input id="form_password" type="password" name="password" />
         </div>
         
-        <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+        <button class="btn btn-light" type="submit" value="Submit">Submit</button>
       </form>
 
-      <hr/>
+      
       <button class="btn btn-primary" type="submit" href="/signup" onClick='document.location.href="/signup"'>
         Sign Up
       </button>
