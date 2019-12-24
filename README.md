@@ -8,23 +8,16 @@
 
 ## Instructions 
 
+- npm install
+- npm run build
 - npm run populate
 - npm start
+
+The server should be running on port 8080 : http://localhost:8080/
+
 - npm test
 
 ## Populate users
 
 - user , password ;
 - user2 , password2 ;
-
-## Run instructions
-
-After you cloned the repository , execute those commands :
-- `npm install` To install all the dependencies
-- `npm run populate` To populate the database
-- `npm run build` Build to convert .ts files into .js files in /dist folder
-- `npm start` (run the app)
-- `npm test` Test the functions
-
-Then open a browser with the link below http://localhost:8080/
-
