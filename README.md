@@ -10,6 +10,7 @@
 
 - npm run populate
 - npm start
+- npm test
 
 ## Populate users
 
@@ -23,6 +24,7 @@ After you cloned the repository , execute those commands :
 - `npm run populate` To populate the database
 - `npm run build` Build to convert .ts files into .js files in /dist folder
 - `npm start` (run the app)
+- `npm test` Test the functions
 
 Then open a browser with the link below http://localhost:8080/
 
